@@ -7,3 +7,11 @@
 .custom-color #add-custom{margin-left:auto;display:grid;place-items:center;flex:0 0 24px;width:24px;height:24px;padding:0;font-size:18px;line-height:1;text-align:center;border:1px solid var(--line);border-radius:4px}
 .custom-color #add-custom:disabled{opacity:.35;cursor:default}
 .extra-color{margin-top:10px}
+
+.pattern-library{border-top:1px solid var(--line);margin-top:24px;padding-top:22px}.pattern-library button{margin-top:12px}.pattern-library select{font-size:11px}.pattern-library button:disabled,.primary:disabled{opacity:.45;cursor:default}
+
+.palette{flex-wrap:wrap;align-items:center;gap:12px}.palette #swatches{display:contents}.palette .swatch{flex:0 0 34px;padding:0}.swatch.selected:after{text-shadow:0 1px 3px #000}
+.add-color{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;padding:0;border:1px dashed #9ba58f;border-radius:50%;background:transparent;color:var(--green);font-size:21px;line-height:1}.add-color:hover{background:#eff2e8}.edit-color{padding:0;border:0;background:none;color:var(--green);font-size:11px;text-decoration:underline;text-underline-offset:3px}
+#color-editor{width:min(90vw,360px)}#color-editor h2{margin-top:0;font-size:24px}.color-editor-label{display:block;margin:20px 0 12px;font-size:12px}#color-value{display:block;width:64px;height:64px;padding:0;overflow:hidden;border:1px solid var(--line);border-radius:50%;background:none;cursor:pointer}#color-value::-webkit-color-swatch-wrapper{padding:0}#color-value::-webkit-color-swatch{border:0;border-radius:50%}#color-value::-moz-color-swatch{border:0;border-radius:50%}.color-editor-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px}.color-editor-actions>button:not(.primary){border:0;background:none;color:var(--muted);font-size:12px}
+
+#braid [data-strand]{cursor:pointer;pointer-events:visiblePainted}#braid [data-strand].strand-highlight,#braid [data-strand]:focus-visible{stroke:#17231b;stroke-opacity:1;stroke-width:1.2;outline:none}#disk .strand-highlight circle{stroke:#17231b;stroke-width:4}#disk .strand-highlight>path{stroke-width:7}
