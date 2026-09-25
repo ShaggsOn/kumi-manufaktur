@@ -52,15 +52,51 @@ function paint(e){const b=e.target.closest('[data-index]');if(b)paintStrand(Numb
 function highlightStrand(index){
  document.querySelectorAll('#braid [data-strand]').forEach(el=>el.classList.toggle('strand-highlight',Number(el.dataset.strand)===index));
  document.querySelectorAll('#disk [data-index]').forEach(el=>el.classList.toggle('strand-highlight',Number(el.dataset.index)===index));
+ raiseStrand(index);
 }
 function previewTarget(e){return e.target.closest('[data-strand]');}
+function clearRaisedScale(){
+ document.querySelectorAll('#braid .raised-scale').forEach(el=>el.remove());
+}
+function raiseStrand(index){
+ clearRaisedScale();
+ if(!Number.isInteger(index))return;
+ const scales=[...document.querySelectorAll('#braid [data-strand]')].filter(el=>Number(el.dataset.strand)===index);
+ if(!scales.length)return;
+ // Copies preserve the original hit areas; outlines are painted last, above shading.
+ const layer=document.createElementNS('http://www.w3.org/2000/svg','g');
+ layer.setAttribute('class','raised-scale');
+ layer.setAttribute('pointer-events','none');
+ layer.setAttribute('aria-hidden','true');
+ const outlines=[];
+ for(const scale of scales){
+  const face=scale.cloneNode(true);
+  for(const name of ['data-strand','data-scale-row','role','tabindex','aria-label','class'])face.removeAttribute(name);
+  face.setAttribute('pointer-events','none');
+  layer.appendChild(face);
+  const shading=scale.nextElementSibling?.cloneNode(true);
+  if(shading)layer.appendChild(shading);
+  const outline=face.cloneNode(true);
+  outline.setAttribute('fill','none');
+  outline.setAttribute('stroke','#17231b');
+  outline.setAttribute('stroke-opacity','1');
+  outline.setAttribute('stroke-width','1.2');
+  outline.setAttribute('stroke-linejoin','round');
+  outlines.push(outline);
+ }
+ outlines.forEach(outline=>layer.appendChild(outline));
+ scales[0].parentNode.appendChild(layer);
+}
 $('braid').onclick=e=>{
  const b=previewTarget(e);if(!b)return;
  const index=Number(b.dataset.strand);
  paintStrand(index);highlightStrand(index);
 };
 $('braid').onpointerover=e=>{const b=previewTarget(e);highlightStrand(b?Number(b.dataset.strand):null);};
-$('braid').onpointerleave=()=>highlightStrand(null);
+$('braid').onpointerout=e=>{
+ if(previewTarget(e)!==e.relatedTarget?.closest?.('[data-strand]'))highlightStrand(null);
+};
+$('braid').onpointerleave=()=>{clearRaisedScale();highlightStrand(null);};
 $('braid').onfocusin=e=>{const b=previewTarget(e);if(b)highlightStrand(Number(b.dataset.strand));};
 $('braid').onfocusout=()=>highlightStrand(null);
 $('braid').onkeydown=e=>{
